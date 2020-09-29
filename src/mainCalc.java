@@ -70,20 +70,55 @@ public class mainCalc {
 	
 	public static void checkNeckList(){
 			List<String> wList =neckDB.getWordList();
+			List<String> matchlist =  new ArrayList<String>();
 			String msgCheck = "";
 			boolean isMatch = true;
 			int count = 0;
 			final long startTime = System.currentTimeMillis();
 			System.out.println("Calculating matching word sets...");
 
+			//calculates all the matching necklace pairs. Very inefficient because of 3 loops. Need to devise a better solution.
 			for(int i = 0; i<wList.size(); i++){
 				for(int x = i; x < wList.size(); x++){
 					if (i != x){
-						msgCheck = wList.get(x).substring(0,wList.size());
+						if(wList.get(x).length() == wList.get(i).length()){
+							
+							for(int y = 0; y < wList.get(x).length(); y++){
+								if(y==0){
+									msgCheck = wList.get(x).substring(0,wList.get(x).length());
+									//System.out.println(msgCheck);
+									if(msgCheck.equals(wList.get(i))){
+										//System.out.println("msgcheck " + msgCheck);
+										//System.out.println("wList " + wList.get(i));
+										count++;
+										break;
+									}
+								}else{									
+									msgCheck = wList.get(x).substring(0, wList.get(x).length()-y);
+									msgCheck = wList.get(x).substring( wList.get(x).length()-y, wList.get(x).length())+msgCheck;
+									//System.out.println(msgCheck);
+									if(msgCheck.equals(wList.get(i))){
+										//System.out.println("msgcheck " + msgCheck);
+										//System.out.println("wList x " + wList.get(x));
+										//System.out.println("wList i " + wList.get(i));
+										System.out.println("Total execution time: " + (System.currentTimeMillis() - startTime)/1000 + " seconds.");
+
+										count++;
+										break;
+									}
+							}
+
+						}
+					
+							
+							
+							
 					}
 			}
 		}
 			
+
+			}
 			System.out.println("The amount of matching sets were: " + count);
 			final long endTime = System.currentTimeMillis();
 			System.out.println("Total execution time: " + (endTime - startTime)/1000 + " seconds.");
